@@ -78,12 +78,31 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         }) 
-
+    //  orders collection 
         app.post('/orders', async (req, res) => {
             const newProduct = req.body;
             const result = await orders.insertOne(newProduct);
             res.send(result);
         })
+        // my orders 
+
+         // post 
+    app.post("/post-product",async (req, res) => {
+      const data = req.body;
+      // console.log(data)
+      const result = await productCollection.insertOne(data);
+      res.send({
+        success: true,
+        result,
+      });
+    }); 
+
+    // my modal 
+     app.get("/my-products", verifyToken, async(req, res) => {
+      const email = req.query.email
+      const result = await modelCollection.find({created_by: email}).toArray()
+      res.send(result)
+    })
   
 
 
