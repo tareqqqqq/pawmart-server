@@ -97,10 +97,17 @@ async function run() {
       });
     }); 
 
-    // my modal 
-     app.get("/my-products", verifyToken, async(req, res) => {
+    // my listing
+     app.get("/my-products",async(req, res) => {
       const email = req.query.email
-      const result = await modelCollection.find({created_by: email}).toArray()
+      const result = await productCollection.find({email: email}).toArray()
+      res.send(result)
+    })
+
+    // my order 
+     app.get("/my-orders",async(req, res) => {
+      const email = req.query.email
+      const result = await orders.find({email: email}).toArray()
       res.send(result)
     })
   
