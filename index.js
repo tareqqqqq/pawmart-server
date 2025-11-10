@@ -123,6 +123,14 @@ app.put("/listing/:id", async (req, res) => {
   const result = await productCollection.updateOne(filter, updateDoc);
   res.send(result);
 });
+
+// Delete listing
+app.delete("/listing/:id", async (req, res) => {
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const result = await productCollection.deleteOne(query);
+  res.send(result);
+});
   
 
 
