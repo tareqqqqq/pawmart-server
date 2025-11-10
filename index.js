@@ -74,7 +74,7 @@ async function run() {
         app.get('/products/orders/:productId',async (req, res) => {
             const productId = req.params.productId;
             const query = { product: productId }
-            const cursor = orders.find(query).sort({price: -1 })
+            const cursor = productCollection.find(query)
             const result = await cursor.toArray();
             res.send(result);
         }) 
@@ -82,7 +82,10 @@ async function run() {
         app.post('/orders', async (req, res) => {
             const newProduct = req.body;
             const result = await orders.insertOne(newProduct);
-            res.send(result);
+           res.send({
+        success: true,
+        result,
+      });
         })
         // my orders 
 
@@ -110,6 +113,16 @@ async function run() {
       const result = await orders.find({email: email}).toArray()
       res.send(result)
     })
+
+    // Update listing collection 
+app.put("/listing/:id", async (req, res) => {
+  const id = req.params.id;
+  const updatedData = req.body;
+  const filter = { _id: new ObjectId(id) };
+  const updateDoc = { $set: updatedData };
+  const result = await productCollection.updateOne(filter, updateDoc);
+  res.send(result);
+});
   
 
 
