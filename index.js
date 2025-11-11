@@ -140,6 +140,16 @@ app.get("/search", async (req, res) => {
   res.send(result);
 });
   
+ 
+
+app.get("/listing-category", async (req, res) => {
+  const category = req.query.category; 
+ 
+  const result = await productCollection.find({category: category}).toArray();
+  res.send(result);
+});
+
+
 
 
 
