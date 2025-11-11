@@ -131,6 +131,14 @@ app.delete("/listing/:id", async (req, res) => {
   const result = await productCollection.deleteOne(query);
   res.send(result);
 });
+
+
+// search 
+app.get("/search", async (req, res) => {
+  const search_text = req.query.search;
+  const result = await productCollection.find({ name: { $regex: search_text, $options: "i" } }).toArray();
+  res.send(result);
+});
   
 
 
